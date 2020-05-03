@@ -97,7 +97,7 @@ compareVec3  = function(vec1,vec2){
 #5) distribution of local min of p-value                                   #
 #############################################################################
 
-fInverse = function(n=10000, h= 20, hh=h, precise=10000, simT=100){        #need to be faster
+fInverse = function(n=10000, h= 20, hh=20, precise=10000, simT=100){        #need to be faster
    set.seed(2011)
    empirical = NULL
    for (i in 1:simT){
@@ -115,7 +115,7 @@ fInverse = function(n=10000, h= 20, hh=h, precise=10000, simT=100){        #need
 ############################################################################
 #6) simple SARA  p-value returned      #    # return index and local min of p-value
 ############################################################################
-SARAp = function(Y, h, hh=h, sigma=NULL){
+SARAp = function(Y, h, hh, sigma=NULL){
    n        = length(Y)
    LDF      =  abs(llce(Y,h))
    if (is.null(sigma)) sigma = estimateSigma(Y, h=max(3,2*floor(log(n))))
@@ -132,7 +132,7 @@ SARAp = function(Y, h, hh=h, sigma=NULL){
 ############################################################################
 #7) FDR control                        #
 ############################################################################
-SARAFDR = function(Y, h=10, hh=h, sigma=NULL, FINV = NULL, precise=10000, fdr=c(0.05,0.1,0.15)){
+SARAFDR = function(Y, h=10, hh=10, sigma=NULL, FINV = NULL, precise=10000, fdr=c(0.05,0.1,0.15)){
    object = SARAp(Y=Y, h=h, hh=hh, sigma=sigma)
    index  = object$index
    pV     = object$pV
@@ -195,7 +195,7 @@ for (i in 0:J) { Y0 = c(Y0,rep(i%%2, aDiff[i+1]))}                              
 #precise = 1000
 #FINV   = fInverse(n=n, h= h, hh=hh, precise=precise, simT=100)
 
-simulI = function(Y0, sigma = 1, Delta = 1.5, h = 20, hh = h, precise = 1000) {
+simulI = function(Y0, sigma = 1, Delta = 1.5, h = 20, hh = 20, precise = 1000) {
 set.seed(85715)
 Y1      = Y0*Delta
 n       = length(Y0)
